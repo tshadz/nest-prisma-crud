@@ -77,6 +77,10 @@ export class UsersService {
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.prisma.user.delete({
+      where: {
+        id: id
+      }
+    });
   }
 }
