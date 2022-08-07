@@ -33,7 +33,7 @@ export class UsersService {
     });
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prisma.user.findFirstOrThrow({
       where: {
         id: id
@@ -41,11 +41,42 @@ export class UsersService {
     });;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const { name, email } = updateUserDto;
+    return this.prisma.user.update({
+      data:{
+        name: name,
+        email: email
+      },
+      where: {
+        id: id,
+      }
+    });
   }
 
-  remove(id: number) {
+  async deactivateUser(id: number) {
+    return this.prisma.user.update({
+      data:{
+        isActive: false,
+      },
+      where: {
+        id: id,
+      }
+    });
+  }
+
+  async activateUser(id: number) {
+    return this.prisma.user.update({
+      data:{
+        isActive: true,
+      },
+      where: {
+        id: id,
+      }
+    });
+  }
+
+  async remove(id: number) {
     return `This action removes a #${id} user`;
   }
 }
