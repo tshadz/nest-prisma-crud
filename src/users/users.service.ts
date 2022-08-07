@@ -3,18 +3,18 @@ import { User, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto): Promise<CreateUserDto> {
-    const { name, email, isActive } = createUserDto;
+  async create(createUserDto: CreateUserDto): Promise<UserEntity> {
+    const { name, email } = createUserDto;
     return this.prisma.user.create({
       data: {
         name,
-        email,
-        isActive,
+        email
       },
     });
   }

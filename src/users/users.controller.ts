@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User as UserModel } from '@prisma/client';
 
 @Controller('users')
 export class UsersController {
@@ -10,6 +11,11 @@ export class UsersController {
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
+  }
+
+  @Post('prisma')
+  createUser(@Body() userData: { name?: string; email: string}): Promise<UserModel> {
+    return this.usersService.createUser(userData);
   }
 
   @Get()
