@@ -25,12 +25,20 @@ export class UsersService {
     });
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll(): Promise<UserEntity[]> {
+    return this.prisma.user.findMany({
+      where: {
+        isActive: true
+      }
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.prisma.user.findFirstOrThrow({
+      where: {
+        id: id
+      }
+    });;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
